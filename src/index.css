@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;700&display=swap");
+
+@import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+
+.font-lexend {
+  font-family: "Lexend", sans-serif;
+  
+}
+
+body {
+  font-family: "Lexend", sans-serif;
+  background-color: #1f2937; /* Dark gray background */
+  color: white; /* White text for contrast */
+}
+
