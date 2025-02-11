@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
           <div className="text-2xl">EquiTrack</div>
 
           {/* Navigation Links */}
-          <div className="flex space-x-4 font-lexend">
+          <div className="flex space-x-4 font-lexend no-underline">
             <Link
               to="/"
               className="text-white hover:text-gray-400 cursor-pointer no-underline"
