@@ -1,0 +1,47 @@
+.cards {
+    position: relative;
+    background-color: #1f2937;
+    padding: 16px;
+    height: 10rem;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .cards:hover {
+    box-shadow: 0 0 15px rgba(72, 233, 106, 0.6);
+  }
+  
+  .cards p {
+    transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+  }
+  
+
+/* Graph Container */
+.chart-container {
+    background-color: #1f2937;
+    padding: 1rem;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Graph Hover Effect */
+.chart-container:hover {
+    box-shadow: 0 0 20px rgba(72, 233, 106, 0.6);
+    transform: translateY(-5px);
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+    .card, .chart-container {
+        padding: 0.75rem;
+        height: auto;  /* Adjusts height for smaller screens */
+    }
+}

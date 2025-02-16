@@ -12,6 +12,7 @@ import {
   Cell,
   Legend,
 } from "recharts";
+import "../styles/Dashboard.css"; // Import the CSS file
 
 const portfolioData = [
   { date: "Jan", value: 45000 },
@@ -34,35 +35,42 @@ const COLORS = ["#4CAF50", "#FF9800", "#03A9F4", "#E91E63"];
 const Dashboard: React.FC = () => {
   return (
     <div className="flex-1 p-6 flex flex-col items-center w-full">
-      {/* First Row - Three Cards */}
+      {/* First Row - Three Cards with Glow Effect */}
       <div className="flex flex-row gap-6 w-full px-10">
-        <div className="bg-gray-800 text-white p-4 h-40 rounded-lg shadow-md flex-1 flex flex-col">
-          <p className="text-lg font-medium uppercase opacity-70">
-            Total Investment
-          </p>
-          <p className="text-3xl font-semibold">$50,000</p>
-          <p className="text-green-400 text-lg font-medium mt-0">+4.3%</p>
-        </div>
-        <div className="bg-gray-800 text-white p-4 h-40 rounded-lg shadow-md flex-1 flex flex-col">
-          <p className="text-lg font-medium uppercase opacity-70">
-            Current Value
-          </p>
-          <p className="text-3xl font-semibold">$60,000</p>
-          <p className="text-green-400 text-sm font-medium mt-0">+4.3%</p>
-        </div>
-        <div className="bg-gray-800 text-white p-4 h-40 rounded-lg shadow-md flex-1 flex flex-col">
-          <p className="text-lg font-medium uppercase opacity-70">
-            Total Profit/Loss
-          </p>
-          <p className="text-3xl font-semibold">$10,000</p>
-          <p className="text-red-400 text-sm font-medium mt-0">-2.5%</p>
-        </div>
+        {[
+          {
+            title: "Total Investment",
+            value: "$50,000",
+            change: "+4.3%",
+            changeColor: "text-green-400",
+          },
+          {
+            title: "Current Value",
+            value: "$60,000",
+            change: "+4.3%",
+            changeColor: "text-green-400",
+          },
+          {
+            title: "Total Profit/Loss",
+            value: "$10,000",
+            change: "-2.5%",
+            changeColor: "text-red-400",
+          },
+        ].map((card, index) => (
+          <div key={index} className="cards">
+            <p className="text-lg font-medium opacity-70">{card.title}</p>
+            <p className="text-3xl font-semibold">{card.value}</p>
+            <p className={`${card.changeColor} text-lg font-medium mt-0`}>
+              {card.change}
+            </p>
+          </div>
+        ))}
       </div>
 
       {/* Second Row - Graphs */}
       <div className="flex space-x-4 mt-4 w-full px-10">
         {/* Portfolio Growth - Line Chart */}
-        <div className="bg-gray-800 text-white p-4 flex-1 rounded-lg shadow-md">
+        <div className="chart-container">
           <p className="text-lg font-medium uppercase opacity-70">
             Portfolio Growth
           </p>
@@ -83,7 +91,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Assets Allocation - Pie Chart */}
-        <div className="bg-gray-800 text-white p-4 flex-1 rounded-lg shadow-md">
+        <div className="chart-container">
           <p className="text-lg font-medium uppercase opacity-70">
             Assets Allocated
           </p>

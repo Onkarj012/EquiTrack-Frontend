@@ -13,6 +13,8 @@ import {
   Line,
   CartesianGrid,
 } from "recharts";
+import Navbar from "../components/Navbar";
+import "../styles/Dashboard.css";
 
 const assetData = [
   { name: "Stocks", value: 45 },
@@ -42,117 +44,112 @@ const COLORS = ["#4CAF50", "#FF9800", "#03A9F4", "#E91E63"];
 
 const Analysis = () => {
   return (
-    <div className="p-6 text-white bg-gray-900 min-h-screen">
-      {/* Title */}
-      <h1 className="text-3xl mb-6">Analysis</h1>
+    <>
+      <Navbar />
+      <div className="container text-white bg-gray-900 min-h-screen p-6">
+        {/* Title */}
+        <h1 className="text-3xl mb-6">Analysis</h1>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-4 gap-4 mb-6">
-        <div className="bg-gray-800 p-4 rounded-lg shadow-md">
-          <p className="text-gray-400">Total Portfolio Value</p>
-          <p className="text-2xl">$847,392.54</p>
-          <p className="text-green-400">📈 +2.4%</p>
+        {/* First Layer: 4 Stat Cards */}
+        <div className="grid grid-cols-4 gap-4 mb-6">
+          {[
+            "Total Portfolio Value",
+            "Today's Change",
+            "YTD Return",
+            "Total Return",
+          ].map((title, index) => (
+            <div key={index} className="cards ">
+              <p className="card-title">{title}</p>
+              <p className="card-value">
+                ${[847392.54, 4231.89, 92847.12, 247392.54][index]}
+              </p>
+              <p className="card-change text-green-400">
+                📈 +{[2.4, 0.5, 12.3, 41.2][index]}%
+              </p>
+            </div>
+          ))}
         </div>
-        <div className="bg-gray-800 p-4 rounded-lg shadow-md">
-          <p className="text-gray-400">Today's Change</p>
-          <p className="text-2xl">+$4,231.89</p>
-          <p className="text-green-400">📈 +0.5%</p>
-        </div>
-        <div className="bg-gray-800 p-4 rounded-lg shadow-md">
-          <p className="text-gray-400">YTD Return</p>
-          <p className="text-2xl">+$92,847.12</p>
-          <p className="text-green-400">📈 +12.3%</p>
-        </div>
-        <div className="bg-gray-800 p-4 rounded-lg shadow-md">
-          <p className="text-gray-400">Total Return</p>
-          <p className="text-2xl">+$247,392.54</p>
-          <p className="text-green-400">📈 +41.2%</p>
-        </div>
-      </div>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        {/* Asset Allocation - Pie Chart */}
-        <div className="bg-gray-800 p-6 rounded-lg">
-          <h3 className="text-lg mb-2">Asset Allocation</h3>
+        {/* Second Layer: Pie Chart & Bar Chart */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="chart-container">
+            <h3 className="card-header">Asset Allocation</h3>
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie
+                  data={assetData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  label
+                >
+                  {assetData.map((_, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className="chart-container">
+            <h3 className="card-header">Sector Distribution</h3>
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={sectorData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="sector" stroke="#ccc" />
+                <YAxis stroke="#ccc" />
+                <Tooltip />
+                <Bar dataKey="value" fill="#4CAF50" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Third Layer: Full-width Line Chart */}
+        <div className="chart-container">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="card-header">Historical Performance</h3>
+            <div className="flex gap-2">
+              {["1D", "1W", "1M", "3M", "6M", "1Y", "All"].map(
+                (label, index) => (
+                  <button
+                    key={index}
+                    className={`time-btn px-3 py-1 rounded-md ${
+                      index === 0
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-700 text-gray-300"
+                    } hover:bg-blue-600`}
+                  >
+                    {label}
+                  </button>
+                )
+              )}
+            </div>
+          </div>
           <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={assetData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                label
-              >
-                {assetData.map((_, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Sector Distribution - Bar Chart */}
-        <div className="bg-gray-800 p-6 rounded-lg">
-          <h3 className="text-lg mb-2">Sector Distribution</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={sectorData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="sector" stroke="#ccc" />
+            <LineChart data={historicalData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#555" />
+              <XAxis dataKey="date" stroke="#ccc" />
               <YAxis stroke="#ccc" />
               <Tooltip />
-              <Bar dataKey="value" fill="#4CAF50" />
-            </BarChart>
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="#03A9F4"
+                strokeWidth={2}
+              />
+            </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
-
-      {/* Historical Performance - Line Chart */}
-      <div className="bg-gray-800 p-6 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4">Historical Performance</h3>
-
-        {/* Time Range Buttons */}
-        <div className="flex space-x-2 mb-4">
-          <button className="px-3 py-1 bg-gray-700 text-white rounded-md">
-            1M
-          </button>
-          <button className="px-3 py-1 bg-white text-black rounded-md">
-            3M
-          </button>
-          <button className="px-3 py-1 bg-gray-700 text-white rounded-md">
-            6M
-          </button>
-          <button className="px-3 py-1 bg-gray-700 text-white rounded-md">
-            1Y
-          </button>
-          <button className="px-3 py-1 bg-gray-700 text-white rounded-md">
-            All
-          </button>
-        </div>
-
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={historicalData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#555" />
-            <XAxis dataKey="date" stroke="#ccc" />
-            <YAxis stroke="#ccc" />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="value"
-              stroke="#03A9F4"
-              strokeWidth={2}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
+    </>
   );
 };
 

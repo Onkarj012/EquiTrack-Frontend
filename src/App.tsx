@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+
 import DashboardPage from "./pages/Dashboard";
 import PortfolioPage from "./pages/Portfolio";
 import Analysis from "./pages/Analysis";
@@ -9,7 +9,6 @@ import Login from "./pages/Login"; // Import Login Page
 const App = () => {
   return (
     <Router>
-      <Navbar />
       <div className="pt-16 min-h-screen bg-gray-900 text-white font-lexend">
         <Routes>
           <Route path="/" element={<DashboardPage />} />
